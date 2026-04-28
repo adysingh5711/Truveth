@@ -1,8 +1,7 @@
 import { createWalletClient, createPublicClient, http } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { polygonAmoy } from "viem/chains";
-import { readFileSync, writeFileSync, mkdirSync } from "fs";
-import { dirname } from "path";
+import { readFileSync, writeFileSync } from "fs";
 import "dotenv/config";
 
 const account = privateKeyToAccount(process.env.POLYGON_AMOY_PRIVATE_KEY);
@@ -37,12 +36,6 @@ const contractAddress = receipt.contractAddress;
 
 console.log("Contract deployed at:", contractAddress);
 console.log("Polygonscan:", `https://amoy.polygonscan.com/address/${contractAddress}`);
-
-// Auto-extract ABI
-const abiPath = "./src/lib/abi/Certification.json";
-mkdirSync(dirname(abiPath), { recursive: true });
-writeFileSync(abiPath, JSON.stringify(artifact.abi, null, 2));
-console.log("ABI synced to:", abiPath);
 
 // Auto-update .env.local with updated contract address
 const envPath = "./.env.local";

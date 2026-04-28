@@ -2,8 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import { ethers } from "ethers";
-import certification from "../../lib/abi/certification.json";
+import { Certification__factory } from "@/typechain-types";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { useRouter } from "next/navigation";
@@ -92,11 +91,8 @@ const CertificateGenerator = (): React.JSX.Element => {
       if (!result) throw new Error("Wallet not connected");
       const { signer } = result;
 
-      const contract = new ethers.Contract(
-        CONTRACT_ADDRESS,
-        certification.abi,
-        signer
-      );
+      // Use TypeChain factory to connect to the contract
+      const contract = Certification__factory.connect(CONTRACT_ADDRESS, signer);
 
       const data = await contract.getData(inputCertId) as string[];
       setCertificateData({

@@ -1,9 +1,14 @@
 {
     "extends": "../tsconfig.hardhat.json",
     "compilerOptions": {
-        "types": [
-            "node",
-            "mocha"
-        ]
-    }
+        "paths": {
+            "@/typechain-types/*": [
+                "./src/typechain-types/*"
+            ]
+        }
+    },
+    "include": [
+        "src",
+        "src/typechain-types"
+    ]
 }

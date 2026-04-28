@@ -46,3 +46,4 @@ artifacts
 
 Truveth_Build_Plan.md
 .vscode/
+src/typechain-types/

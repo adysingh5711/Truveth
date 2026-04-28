@@ -28,9 +28,11 @@
     "dev": "next dev",
     "start": "next start",
     "build": "next build",
-    "compile": "hardhat compile",
     "predeploy": "npm run build",
-    "deploy": "hardhat compile && node scripts/deploy.mjs",
+    "compile": "hardhat compile",
+    "typechain": "typechain --target ethers-v6 --out-dir src/typechain-types 'artifacts/contracts/**/*.json'",
+    "build:contracts": "npm run compile && npm run typechain",
+    "deploy": "npm run build:contracts && node scripts/deploy.mjs",
     "test": "hardhat test --tsconfig tsconfig.hardhat.json",
     "lint": "next lint"
   },
@@ -46,6 +48,7 @@
     "@nomicfoundation/hardhat-ethers": "^4.0.8",
     "@nomicfoundation/hardhat-verify": "^3.0.14",
     "@nomicfoundation/hardhat-viem": "^3.0.5",
+    "@typechain/ethers-v6": "^0.5.1",
     "@types/chai-as-promised": "^8.0.2",
     "@types/mocha": "^10.0.10",
     "@types/node": "^25.6.0",
@@ -55,6 +58,7 @@
     "gh-pages": "^6.3.0",
     "hardhat": "^3.4.2",
     "postcss": "^8.5.12",
+    "typechain": "^8.3.2",
     "typescript": "^6.0.3",
     "vitest": "^4.1.0"
   }

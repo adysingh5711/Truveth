@@ -2,9 +2,8 @@
 
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import { ethers } from "ethers";
+import { Certification__factory } from "@/typechain-types";
 import { useRouter } from "next/navigation";
-import certification from "../../lib/abi/certification.json";
 import Image from "next/image";
 import polygonIcon from "../images/polygon-matic-logo.svg";
 import {
@@ -81,7 +80,8 @@ function Register(): React.JSX.Element {
       if (!result) throw new Error("Wallet not connected");
       const { signer } = result;
 
-      const contract = new ethers.Contract(CONTRACT_ADDRESS, certification.abi, signer);
+      // Use TypeChain factory to connect to the contract
+      const contract = Certification__factory.connect(CONTRACT_ADDRESS, signer);
       const currentAddress = await signer.getAddress();
 
       if (currentAddress.toLowerCase() !== OWNER.toLowerCase()) {
@@ -102,7 +102,9 @@ function Register(): React.JSX.Element {
       setOwnerRight("");
       setCreatedCertId(certId);
       // Dynamic tx explorer link
-      setTxUrl(getTxUrl(receipt.hash));
+      if (receipt) {
+        setTxUrl(getTxUrl(receipt.hash));
+      }
       setShowSuccessModal(true);
     } catch (err) {
       console.error(err);
@@ -131,15 +133,15 @@ function Register(): React.JSX.Element {
       if (!result) throw new Error("Wallet not connected");
       const { signer } = result;
 
-      const contract = new ethers.Contract(CONTRACT_ADDRESS, certification.abi, signer);
-      const data = await contract.getData(id) as string[];
-
+      // Use TypeChain factory to connect to the contract
+      const contract = Certification__factory.connect(CONTRACT_ADDRESS, signer);
+      const data = await contract.getData(id);
       setCertificateData({
         candidateName: data[0],
         orgName: data[1],
         courseName: data[2],
         batchYear: data[3].toString(),
-        blockNumber: data[4].toString(),
+        blockNumber: data[4].toString(), // bigint if uint256 in ABI
       });
       setGotError1("");
     } catch (err) {
