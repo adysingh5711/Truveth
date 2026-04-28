@@ -1,4 +1,5 @@
 import { BrowserProvider, JsonRpcSigner, Eip1193Provider } from "ethers";
+import { clientConfig } from "@/lib/env.client";
 
 declare global {
   interface Window {
@@ -97,4 +98,64 @@ export const getProviderAndSigner = async (): Promise<ProviderAndSigner | null> 
     console.error("Failed to get provider/signer:", (err as Error).message);
     return null;
   }
+};
+
+// ─── 1. Network Guard ────────────────────────────────────────────────────────
+// EIP-3326: wallet_switchEthereumChain
+// https://eips.ethereum.org/EIPS/eip-3326
+export const assertCorrectNetwork = async (): Promise<void> => {
+  const ethereum = getEthereum();
+  if (!ethereum) throw new Error("MetaMask not installed");
+
+  const targetHex = `0x${clientConfig.NEXT_PUBLIC_CHAIN_ID.toString(16)}`;
+  const currentChain = (await ethereum.request({ method: "eth_chainId" })) as string;
+
+  if (currentChain.toLowerCase() === targetHex.toLowerCase()) return;
+
+  // EIP-3326: throws code 4902 if the chain is not in the wallet yet
+  try {
+    await ethereum.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: targetHex }],
+    });
+  } catch (err: unknown) {
+    const switchErr = err as { code?: number };
+    // 4902 = chain not added to MetaMask at all
+    if (switchErr.code === 4902) {
+      throw new Error(
+        `Chain ${clientConfig.NEXT_PUBLIC_CHAIN_ID} is not added to MetaMask. ` +
+        `Add it manually or call wallet_addEthereumChain first.`
+      );
+    }
+    throw err;
+  }
+};
+
+// ─── 2. Explorer URL Builder ─────────────────────────────────────────────────
+const EXPLORER: Record<number, string> = {
+  80002: "https://amoy.polygonscan.com",
+  137: "https://polygonscan.com",
+};
+
+export const getTxUrl = (txHash: string): string => {
+  const base = EXPLORER[clientConfig.NEXT_PUBLIC_CHAIN_ID];
+  if (!base) {
+    throw new Error(
+      `No explorer configured for chain ${clientConfig.NEXT_PUBLIC_CHAIN_ID}. ` +
+      `Add it to the EXPLORER map in src/utils/ethereum.ts.`
+    );
+  }
+  return `${base}/tx/${txHash}`;
+};
+
+export const getAddressUrl = (address: string): string => {
+  const base = EXPLORER[clientConfig.NEXT_PUBLIC_CHAIN_ID];
+  if (!base) throw new Error(`No explorer for chain ${clientConfig.NEXT_PUBLIC_CHAIN_ID}`);
+  return `${base}/address/${address}`;
+};
+
+export const getBlockUrl = (blockNumber: string): string => {
+  const base = EXPLORER[clientConfig.NEXT_PUBLIC_CHAIN_ID];
+  if (!base) throw new Error(`No explorer for chain ${clientConfig.NEXT_PUBLIC_CHAIN_ID}`);
+  return `${base}/block/${blockNumber}`;
 };

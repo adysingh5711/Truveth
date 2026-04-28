@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import { FaWallet, FaEthereum } from "react-icons/fa";
-import { getProviderAndSigner } from "@/utils/ethereum";
+import { getProviderAndSigner, assertCorrectNetwork } from "@/utils/ethereum";
 import { ethers } from "ethers";
 import Image from "next/image";
 
@@ -16,6 +16,7 @@ const DashboardHeader = (): React.JSX.Element => {
   useEffect(() => {
     const fetchWalletInfo = async (): Promise<void> => {
       try {
+        await assertCorrectNetwork();
         const result = await getProviderAndSigner();
         if (!result) return;
         const { signer, provider } = result;

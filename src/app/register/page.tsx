@@ -11,7 +11,7 @@ import {
   FaSearch, FaFileContract, FaUserGraduate, FaBuilding,
   FaBook, FaCalendarAlt, FaArrowLeft, FaCheck, FaTimes, FaCheckCircle,
 } from "react-icons/fa";
-import { getProviderAndSigner } from "../../utils/ethereum";
+import { getProviderAndSigner, getTxUrl, getBlockUrl } from "../../utils/ethereum";
 import {
   PageContainer, GlassCard, GlassInput, GlassInputGroup,
   GlassButton, BackButton,
@@ -47,6 +47,7 @@ function Register(): React.JSX.Element {
   const [showBatchChecks, setShowBatchChecks] = useState<boolean>(false);
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false);
   const [createdCertId, setCreatedCertId] = useState<string>("");
+  const [txUrl, setTxUrl] = useState<string>("");
 
   const nameOfStudentRef = useRef<HTMLInputElement>(null);
   const nameOfOrgRef = useRef<HTMLInputElement>(null);
@@ -95,11 +96,13 @@ function Register(): React.JSX.Element {
         nameOfCourseRef.current?.value ?? "",
         batchYear,
       );
-      await tx.wait();
+      const receipt = await tx.wait();
 
       setGotError("");
       setOwnerRight("");
       setCreatedCertId(certId);
+      // Dynamic tx explorer link
+      setTxUrl(getTxUrl(receipt.hash));
       setShowSuccessModal(true);
     } catch (err) {
       console.error(err);
@@ -257,8 +260,9 @@ function Register(): React.JSX.Element {
                 <ResultRow><span>Year:</span> {certificateData.batchYear}</ResultRow>
                 <ResultRow>
                   <span>Verification:</span>
+                  {/* Dynamic block explorer URL */}
                   <a
-                    href={`https://amoy.polygonscan.com/block/${certificateData.blockNumber}`}
+                    href={getBlockUrl(certificateData.blockNumber)}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{ color: "var(--accent-color)", textDecoration: "underline", display: "flex", alignItems: "center", gap: "5px" }}
@@ -284,6 +288,17 @@ function Register(): React.JSX.Element {
               Certificate generated successfully.
             </p>
             <CertificateIdDisplay>ID: <span>{createdCertId}</span></CertificateIdDisplay>
+            {/* Dynamic tx explorer link */}
+            {txUrl && (
+              <a
+                href={txUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: "var(--accent-color)", marginBottom: "1.5rem", fontSize: "0.9rem", textDecoration: "underline" }}
+              >
+                View transaction on Polygonscan
+              </a>
+            )}
             <GlassButton onClick={() => setShowSuccessModal(false)} $fullWidth>Back</GlassButton>
           </ModalContent>
         </ModalOverlay>

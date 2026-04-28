@@ -26,7 +26,7 @@ import DashboardHeader from "../../components/common/DashboardHeader";
 import { clientConfig } from "@/lib/env.client";
 
 // --- DEV PREVIEW CONFIG ---
-const DEV_PREVIEW = true; // flip to false when done testing
+const DEV_PREVIEW = false; // flip to false when done testing
 
 const DEV_DATA: CertificateData[] = [
   {
