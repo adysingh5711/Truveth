@@ -1,0 +1,61 @@
+{
+  "name": "truveth",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Truveth — Blockchain-based Certificate Generation and Verification System designed to ensure tamper-proof, authentic, and verifiable digital certificates creation.",
+  "main": "hardhat.config.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.5.2",
+    "dotenv": "^16.4.7",
+    "ethers": "^6.13.5",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
+    "next": "^16.2.4",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-icons": "^5.5.0",
+    "react-to-print": "^3.3.0",
+    "server-only": "^0.0.1",
+    "styled-components": "^6.3.12",
+    "web-vitals": "^5.2.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "start": "next start",
+    "build": "next build",
+    "compile": "hardhat compile",
+    "predeploy": "npm run build",
+    "deploy": "hardhat compile && node scripts/deploy.mjs",
+    "test": "hardhat test --tsconfig tsconfig.hardhat.json",
+    "lint": "next lint"
+  },
+  "eslintConfig": {
+    "extends": [
+      "next/core-web-vitals"
+    ]
+  },
+  "overrides": {
+    "styled-components": "^6.3.12"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ethers": "^4.0.8",
+    "@nomicfoundation/hardhat-verify": "^3.0.14",
+    "@nomicfoundation/hardhat-viem": "^3.0.5",
+    "@types/chai-as-promised": "^8.0.2",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^25.6.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "chai-as-promised": "^8.0.2",
+    "gh-pages": "^6.3.0",
+    "hardhat": "^3.4.2",
+    "postcss": "^8.5.12",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.0"
+  }
+}

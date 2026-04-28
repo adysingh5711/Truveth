@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Zenaida';
+  src: url('../fonts/Zenaida-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zenaida';
+  src: url('../fonts/Zenaida-Bold.woff2') format('woff2');
+  font-weight: 600 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Amsterdam-Three';
+  src: url('../fonts/Amsterdam-Three.woff2') format('woff2');
+  font-weight: 600 700;
+  font-display: swap;
+}
+
+:root {
+  /* Richer Green/Teal Palette for 3D Depth */
+  --primary-bg: #E0F7FA;
+  --primary-gradient: linear-gradient(135deg, #E0F7FA 0%, #E8F5E9 100%); /* Very light base for clean feel */
+  
+  /* Glass Styles - clearer and sharper for 3D feel */
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.8);
+  --glass-shadow: 0 8px 32px 0 rgba(76, 175, 80, 0.1); /* Greenish shadow */
+  
+  /* Typography - Dark Green/Teal */
+  --text-primary: #004D40; 
+  --text-secondary: #00796B;
+  
+  /* Accents - Vibrant 3D-pop colors */
+  --accent-color: #00C853; /* Vivid Green */
+  --accent-gradient: linear-gradient(90deg, #00C853 0%, #64DD17 100%);
+  
+  --danger-color: #FF5252;
+  --success-color: #00E676;
+  
+  --backdrop-blur: blur(16px);
+  --border-radius: 24px;
+  --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  
+  --input-bg: rgba(255, 255, 255, 0.75);
+  --card-hover-bg: rgba(255, 255, 255, 0.85);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--primary-gradient);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 77, 64, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 77, 64, 0.3);
+}
+
+/* Glass Utilities */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--border-radius);
+}

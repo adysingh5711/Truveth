@@ -1,0 +1,9 @@
+{
+    "extends": "../tsconfig.hardhat.json",
+    "compilerOptions": {
+        "types": [
+            "node",
+            "mocha"
+        ]
+    }
+}
