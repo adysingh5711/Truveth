@@ -1,5 +1,4 @@
 import './globals.css'
-import Footer from '../components/common/Footer'
 import StyledComponentsRegistry from '../lib/registry'
 import Background3DWrapper from "../components/Background3DWrapper"
 
@@ -19,7 +18,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <StyledComponentsRegistry>
                     <Background3DWrapper />
                     {children}
-                    <Footer />
                 </StyledComponentsRegistry>
             </body>
         </html>

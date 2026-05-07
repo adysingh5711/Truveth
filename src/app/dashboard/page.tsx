@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react";
+import Footer from '../../components/common/Footer'
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import { FaCertificate, FaGraduationCap } from "react-icons/fa";
@@ -40,6 +41,7 @@ export default function Dashboard(): React.JSX.Element {
           </GlassCard>
         </Grid>
       </ContentWrapper>
+      <Footer />
     </PageContainer>
   );
 }
