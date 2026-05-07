@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { Certification__factory } from "@/typechain-types";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import polygonIcon from "../images/polygon-matic-logo.svg";
 import {
   FaSearch, FaFileContract, FaUserGraduate, FaBuilding,
   FaBook, FaCalendarAlt, FaArrowLeft, FaCheck, FaTimes, FaCheckCircle,
@@ -223,7 +222,7 @@ function Register(): React.JSX.Element {
             <GlassButton type="submit" $fullWidth>Create Certificate</GlassButton>
             <GlassButton
               type="button" $secondary $fullWidth
-              onClick={() => router.push("/down")}
+              onClick={() => router.push("/download")}
               style={{ marginTop: "10px" }}
             >
               Go to Download
@@ -269,7 +268,7 @@ function Register(): React.JSX.Element {
                     rel="noopener noreferrer"
                     style={{ color: "var(--accent-color)", textDecoration: "underline", display: "flex", alignItems: "center", gap: "5px" }}
                   >
-                    <Image src={polygonIcon} alt="Polygon" width={20} height={20} />
+                    <Image src="images/polygon-matic-logo.svg" alt="Polygon" width={20} height={20} />
                     View on Polygonscan
                   </a>
                 </ResultRow>

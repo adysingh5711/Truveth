@@ -62,6 +62,7 @@ interface OverlayTextProps {
   $color?: string;
   $weight?: string;
   $align?: string;
+  $transformText?: string;
 }
 
 const CONTRACT_ADDRESS = clientConfig.NEXT_PUBLIC_CONTRACT_ADDRESS;
@@ -205,7 +206,7 @@ const CertificateGenerator = (): React.JSX.Element => {
 
             {/* Candidate Name */}
             <OverlayText $top="51%" $left="50%" $transform="translate(-50%, -50%)"
-              $size="58px" $font="'Great Vibes', cursive" $color="#b8960c" $align="center">
+              $size="58px" $font="'Great Vibes', cursive" $color="#b8960c" $align="center" $transformText="capitalize">
               {certificateData.candidateName}
             </OverlayText>
 
@@ -361,19 +362,19 @@ const CertificateWrapper = styled.div`
   }
 `;
 const OverlayText = styled.div<OverlayTextProps>`
-position: absolute;
-top: ${(p) => p.$top};
-left: ${(p) => p.$left};
-transform: ${(p) => p.$transform ?? "translate(-50%, -50%)"};
-font-size: ${(p) => p.$size};
-color: ${(p) => p.$color ?? "#333"};
-font-family: ${(p) => p.$font ?? "'Outfit', sans-serif"};
-font-weight: ${(p) => p.$weight ?? "normal"};
-text-align: ${(p) => p.$align ?? "center"};
-position: absolute;
-margin: 0;
-white-space: nowrap;
-z-index: 10;
+  position: absolute;
+  top: ${(p) => p.$top};
+  left: ${(p) => p.$left};
+  transform: ${(p) => p.$transform ?? "translate(-50%, -50%)"};
+  font-size: ${(p) => p.$size};
+  color: ${(p) => p.$color ?? "#333"};
+  font-family: ${(p) => p.$font ?? "'Outfit', sans-serif"};
+  font-weight: ${(p) => p.$weight ?? "normal"};
+  text-align: ${(p) => p.$align ?? "center"};
+  text-transform: ${(p) => p.$transformText ?? "none"};
+  margin: 0;
+  white-space: nowrap;
+  z-index: 10;
 `;
 const DevToolbar = styled.div`
   display: flex;
