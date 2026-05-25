@@ -27,7 +27,7 @@
   "scripts": {
     "dev": "next dev",
     "start": "next start",
-    "build": "next build",
+    "build": "npm run build:contracts && next build",
     "predeploy": "npm run build",
     "compile": "hardhat compile",
     "typechain": "typechain --target ethers-v6 --out-dir src/typechain-types 'artifacts/contracts/**/*.json'",
