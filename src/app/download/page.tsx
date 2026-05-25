@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { Certification__factory } from "@/typechain-types";
 import html2canvas from "html2canvas";
@@ -77,11 +77,8 @@ const CertificateGenerator = (): React.JSX.Element => {
   const [error, setError] = useState<string>("");
   const certificateRef = useRef<HTMLDivElement>(null);
 
-  const getData = async (): Promise<void> => {
-    if (!inputCertId.trim()) {
-      setError("Please enter a Certificate ID");
-      return;
-    }
+  const fetchCertificateById = async (id: string): Promise<void> => {
+    if (!id.trim()) return;
 
     setIsLoading(true);
     setError("");
@@ -95,13 +92,13 @@ const CertificateGenerator = (): React.JSX.Element => {
       // Use TypeChain factory to connect to the contract
       const contract = Certification__factory.connect(CONTRACT_ADDRESS, signer);
 
-      const data = await contract.getData(inputCertId) as string[];
+      const data = await contract.getData(id) as string[];
       setCertificateData({
         candidateName: data[0],
         orgName: data[1],
         courseName: data[2],
         batchYear: data[3].toString(),
-        id: inputCertId,
+        id: id,
       });
     } catch (err) {
       console.error("Error getting certificate data:", err);
@@ -115,6 +112,25 @@ const CertificateGenerator = (): React.JSX.Element => {
       setIsLoading(false);
     }
   };
+
+  const getData = async (): Promise<void> => {
+    if (!inputCertId.trim()) {
+      setError("Please enter a Certificate ID");
+      return;
+    }
+    await fetchCertificateById(inputCertId);
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const idParam = params.get("id");
+      if (idParam) {
+        setInputCertId(idParam);
+        fetchCertificateById(idParam);
+      }
+    }
+  }, []);
 
   const generatePDF = async (): Promise<void> => {
     if (!certificateData || !certificateRef.current) return;
