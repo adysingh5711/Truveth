@@ -118,7 +118,7 @@ npm run dev
 
 ```bash
 cp .env.example .env
-# Add PRIVATE_KEY and AMOY_RPC_URL to .env
+# Add POLYGON_AMOY_PRIVATE_KEY, POLYGON_AMOY_RPC_URL and POLYGONSCAN_API_KEY to .env
 
 npx hardhat compile
 npx hardhat run scripts/deploy.js --network amoy
